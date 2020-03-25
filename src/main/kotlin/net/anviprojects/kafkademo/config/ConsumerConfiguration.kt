@@ -13,7 +13,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 
 @Configuration
 @EnableKafka
-class ConsumerConfig(
+class ConsumerConfiguration(
         @Value("\${kafka.bootstrapAddress}")
         private val bootstrapAddress : String,
         @Value("\${kafka.groupId}")
@@ -21,22 +21,17 @@ class ConsumerConfig(
 ) {
 
     @Bean
-    fun consumerConfig() : Map<String, Any> {
+    fun consumerFactory() : ConsumerFactory<String, String> {
         val props = HashMap<String, Any>()
         props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrapAddress
-        props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::javaClass
-        props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::javaClass
+        props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
+        props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         props[ConsumerConfig.GROUP_ID_CONFIG] = groupId
-        return props
+        return DefaultKafkaConsumerFactory(props)
     }
 
     @Bean
-    fun consumerFactory() : ConsumerFactory<String, String> {
-        return DefaultKafkaConsumerFactory(consumerConfig())
-    }
-
-    @Bean
-    fun kafkaListener() : ConcurrentKafkaListenerContainerFactory<String, String> {
+    fun kafkaListenerContainerFactory() : ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = consumerFactory()
         return factory

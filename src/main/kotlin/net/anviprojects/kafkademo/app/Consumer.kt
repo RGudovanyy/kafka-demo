@@ -17,4 +17,10 @@ class Consumer () {
         logger.info("Received {} in topic 1", message)
     }
 
+    @KafkaListener(topics = arrayOf("topic2"), groupId = "group1")
+    fun listenAndAnswer(message : String) : String {
+        logger.info("Received {} in topic 2", message)
+        return "Gotcha!"
+    }
+
 }

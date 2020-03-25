@@ -23,7 +23,7 @@ class AdminConfig(@Value("\${kafka.bootstrapAddress}") private val bootstrapAddr
     fun topic1() : NewTopic {
         return TopicBuilder.name("topic1")
                 .partitions(2)
-                .replicas(3)
+                .replicas(1)
                 .compact()
                 .build()
     }
@@ -32,7 +32,7 @@ class AdminConfig(@Value("\${kafka.bootstrapAddress}") private val bootstrapAddr
     fun topic2() : NewTopic {
         return TopicBuilder.name("topic2")
                 .partitions(3)
-                .replicas(3)
+                .replicas(1)
                 .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
                 .build()
     }
@@ -41,7 +41,7 @@ class AdminConfig(@Value("\${kafka.bootstrapAddress}") private val bootstrapAddr
     fun topic3() : NewTopic {
         return TopicBuilder.name("topic3")
                 .partitions(2)
-                .replicas(2)
+                .replicas(1)
                 .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
                 .build()
     }

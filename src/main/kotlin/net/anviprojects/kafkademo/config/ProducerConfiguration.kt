@@ -10,25 +10,19 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
 
 @Configuration
-class ProducerConfig(@Value("\${kafka.bootstrapAddress}") private val bootstrapAddress : String) {
+class ProducerConfiguration(@Value("\${kafka.bootstrapAddress}") private val bootstrapAddress : String) {
 
-    // для задания темплейта нужно определить конфиг и фабрику
     @Bean
-    fun producerConfig() : Map<String, Any> {
+    fun producerFactory() : ProducerFactory<String, String> {
         val props = HashMap<String, Any>();
         props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrapAddress
-        props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::javaClass
-        props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::javaClass
-        return props
+        props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+        props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+        return DefaultKafkaProducerFactory(props)
     }
 
     @Bean
-    fun producerFactory() : ProducerFactory<Int, String> {
-        return DefaultKafkaProducerFactory(producerConfig())
-    }
-
-    @Bean
-    fun kafkaTemplate() : KafkaTemplate<Int, String> {
+    fun kafkaTemplate() : KafkaTemplate<String, String> {
         return KafkaTemplate(producerFactory())
     }
 }
