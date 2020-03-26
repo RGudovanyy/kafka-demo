@@ -1,10 +1,12 @@
-package net.anviprojects.kafkademo.app
+package net.anviprojects.kafkademo.simple
 
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.springframework.context.annotation.Profile
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
+@Profile("simple")
 class Producer (val kafkaTemplate: KafkaTemplate<String, String>) {
 
     fun sendAndForget(message : String) {

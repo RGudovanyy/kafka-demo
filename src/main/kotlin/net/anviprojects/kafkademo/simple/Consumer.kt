@@ -1,12 +1,12 @@
-package net.anviprojects.kafkademo.app
+package net.anviprojects.kafkademo.simple
 
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.kafka.annotation.EnableKafka
+import org.springframework.context.annotation.Profile
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
 
 @Component
+@Profile("simple")
 class Consumer () {
 
     val logger  = LoggerFactory.getLogger("Consumer")
