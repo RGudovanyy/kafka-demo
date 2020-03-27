@@ -32,7 +32,7 @@ class ConsumerConfiguration(
     }
 
     @Bean
-    fun kafkaListenerContainerFactory() : ConcurrentKafkaListenerContainerFactory<String, String> {
+    fun simpleKafkaListenerContainerFactory() : ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = consumerFactory()
         return factory

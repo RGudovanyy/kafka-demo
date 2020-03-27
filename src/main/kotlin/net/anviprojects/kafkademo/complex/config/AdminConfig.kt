@@ -23,4 +23,6 @@ class AdminConfig(@Value("\${kafka.bootstrapAddress}") private val bootstrapAddr
     @Bean
     fun paymentsTopic() : NewTopic = TopicBuilder.name("payments").partitions(2).compact().build()
 
+    @Bean
+    fun contractsTopic() : NewTopic = TopicBuilder.name("contracts").partitions(2).compact().build()
 }

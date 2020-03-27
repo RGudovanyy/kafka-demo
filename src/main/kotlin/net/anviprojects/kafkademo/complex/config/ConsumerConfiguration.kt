@@ -19,12 +19,9 @@ import kotlin.collections.HashMap
 @Configuration
 @EnableKafka
 @Profile("complex")
-class PaymentConsumerConfiguration(
+class ConsumerConfiguration(
         @Value("\${kafka.bootstrapAddress}")
-        private val bootstrapAddress : String,
-        @Value("\${kafka.payment.groupId}")
-        val groupId : String,
-        val kafkaProperties : KafkaProperties) {
+        private val bootstrapAddress : String) {
 
 
     @Bean
@@ -57,7 +54,6 @@ class PaymentConsumerConfiguration(
     private fun getConsumerProps(): HashMap<String, Any> {
         val props = HashMap<String, Any>()
         props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrapAddress
-        props[ConsumerConfig.GROUP_ID_CONFIG] = groupId
         return props
     }
 

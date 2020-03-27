@@ -17,10 +17,18 @@ import kotlin.random.Random
 @Profile("complex")
 class Producer(val kafkaTemplate: KafkaTemplate<UUID, Any>) {
 
-    fun produceMessages() {
-        while (true) {
+    private var sending = false
+
+    fun start() {
+        sending = true
+        while (sending) {
             sendMessage()
+            Thread.sleep(1000)
         }
+    }
+
+    fun stop() {
+        sending = false
     }
 
     private fun sendMessage() {
@@ -41,11 +49,11 @@ class Producer(val kafkaTemplate: KafkaTemplate<UUID, Any>) {
         return PaymentDto(id, sender(), subject(), LocalDate.now(), amount())
     }
 
-    private fun sender() = "Sender-{$Random.nextInt(10)}"
+    private fun sender() = "Sender-${Random.nextInt(10)}"
 
-    private fun subject() =  "Subject-{$Random.nextInt(10)}"
+    private fun subject() =  "Subject-${Random.nextInt(10)}"
 
-    private fun receiver() = "Receiver-{$Random.nextInt(10)}"
+    private fun receiver() = "Receiver-${Random.nextInt(10)}"
 
     private fun amount() = BigDecimal.valueOf(Random.nextDouble())
 }
